@@ -18,13 +18,22 @@ client = OpenAI(api_key=api_key)
 app = FastAPI ()
 
 # Temporary CORS (we will restrict after deployment)
+origins = [
+    "https://vercel.com/oscars-projects-f6bb610c/live-mood-architect/BfdFNiqEzVSnb1G6M5b5fUJEqSMB"  
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,      # Restrict to Vercel frontend
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],        # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],        # Allow all headers
 )
+
+@app.get("/")
+def root():
+    return {"message": "API is running"}
+
 
 class AffirmationRequest(BaseModel):
     name: str
@@ -50,6 +59,8 @@ Rules:
 User name: {data.name}
 User feeling: {data.feeling}
 
+
+
 Generate a short, empathetic affirmation.
 """
 
@@ -67,9 +78,10 @@ Generate a short, empathetic affirmation.
 
         return {"affirmation": affirmation}
 
-    except Exception as e:
-        print("OPENAI ERROR:", str(e))
+    except Exception:
         raise HTTPException(
             status_code=502,
-            detail=str(e)
+            detail="AI service is temporarily unavailable. Please try again."
         )
+        
+        
