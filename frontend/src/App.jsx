@@ -19,7 +19,8 @@ function App() {
 
     try {
      const response = await fetch(
-  `${import.meta.env.VITE_API_URL}/api/affirmation`,
+  `https://mood-architect-backend-ear7.onrender.com/api/affirmation`
+,
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -108,5 +109,6 @@ const styles = {
     borderRadius: "5px",
   },
 };
+console.log("API URL:", import.meta.env.VITE_API_URL);
 
 export default App;
