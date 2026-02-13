@@ -19,16 +19,17 @@ app = FastAPI ()
 
 # Temporary CORS (we will restrict after deployment)
 origins = [
-    "https://vercel.com/oscars-projects-f6bb610c/live-mood-architect/BfdFNiqEzVSnb1G6M5b5fUJEqSMB"  
+    "https://live-mood-architect-zeta.vercel.app"  
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,      # Restrict to Vercel frontend
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],        # Allow all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],        # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.get("/")
 def root():
